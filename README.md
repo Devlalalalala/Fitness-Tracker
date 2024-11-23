@@ -1,91 +1,86 @@
-The above code is a Python implementation of a Fitness Tracker program. It allows users to track their steps, calculate the distance they've walked, and maintain a list of exercises. Below is a detailed explanation of the code:
+class User:
+    def __init__(self, name, age, max_exercises):
+        self.name = name
+        self.age = age
+        self.steps = 0
+        self.distance = 0.0
+        self.exercises = []
+        self.max_exercises = max_exercises
 
-1. The User Class
-Purpose:
-Represents a user in the fitness tracker. It stores their details and tracks fitness-related metrics like steps, distance, and exercises.
+    def add_exercise(self, exercise):
+        if len(self.exercises) < self.max_exercises:
+            self.exercises.append(exercise)
+        else:
+            print("Exercise list is full.")
 
-Attributes:
-name: The user's name.
-age: The user's age.
-steps: The total number of steps the user has taken.
-distance: The distance walked in kilometers (calculated from steps).
-exercises: A list of exercises the user adds.
-max_exercises: The maximum number of exercises the user can store.
-Methods:
-__init__(self, name, age, max_exercises):
+    def add_steps(self, steps):
+        self.steps += steps
+        self.update_distance()
 
-Initializes the user's details and sets initial values for steps, distance, and exercises.
-add_exercise(self, exercise):
+    def update_distance(self):
+        # Assume 1 step equals 0.78 meters, converted to kilometers.
+        self.distance = self.steps * 0.00078
 
-Adds an exercise to the user's list if the list is not full. If full, prints an error message.
-add_steps(self, steps):
+    def __str__(self):
+        return (f"User(name='{self.name}', age={self.age}, steps={self.steps}, "
+                f"distance={self.distance:.2f} km, exercises={self.exercises})")
 
-Increases the user's step count by the provided number and updates the distance.
-update_distance(self):
 
-Converts the total steps into kilometers (1 step = 0.78 meters).
-__str__(self):
+class FitnessTracker:
+    def __init__(self):
+        self.user = self.initialize_user()
 
-Returns a string representation of the user’s details for easy display.
-2. The FitnessTracker Class
-Purpose:
-Handles the interaction with the user. It manages the fitness tracking process, including input handling and menu-driven functionality.
+    def initialize_user(self):
+        name = input("Enter your name: ")
+        age = int(input("Enter your age: "))
+        max_exercises = int(input("Enter the maximum number of exercises you plan to add: "))
+        return User(name, age, max_exercises)
 
-Attributes:
-user: An instance of the User class created during initialization.
-Methods:
-__init__(self):
+    def start_tracking(self):
+        while True:
+            print("\n1. Add Steps")
+            print("2. View Stats")
+            print("3. Add Exercise")
+            print("4. Exit")
+            try:
+                choice = int(input("Choose an option: "))
 
-Initializes the fitness tracker by creating a User instance using the initialize_user() method.
-initialize_user(self):
+                if choice == 1:
+                    self.add_steps()
+                elif choice == 2:
+                    self.view_stats()
+                elif choice == 3:
+                    self.add_exercise()
+                elif choice == 4:
+                    print("Exiting...")
+                    break
+                else:
+                    print("Invalid choice. Please try again.")
+            except ValueError:
+                print("Please enter a valid number.")
 
-Prompts the user to input their name, age, and maximum number of exercises. Creates and returns a User object.
-start_tracking(self):
+    def add_steps(self):
+        try:
+            steps = int(input("Enter number of steps: "))
+            self.user.add_steps(steps)
+            print("Steps added successfully.")
+        except ValueError:
+            print("Please enter a valid number.")
 
-Displays a menu of options in a loop:
-Add steps.
-View user stats.
-Add exercises.
-Exit the program.
-Executes the corresponding action based on the user’s choice. Handles invalid inputs gracefully.
-add_steps(self):
+    def view_stats(self):
+        print(self.user)
 
-Prompts the user to input the number of steps and adds them to the user's total.
-view_stats(self):
+    def add_exercise(self):
+        try:
+            count = int(input("Enter number of exercises: "))
+            for i in range(count):
+                exercise = input(f"Enter exercise {i + 1}: ")
+                self.user.add_exercise(exercise)
+            print("Exercises added successfully.")
+        except ValueError:
+            print("Please enter a valid number.")
 
-Prints the user’s details (steps, distance, and exercises) using the __str__ method of the User class.
-add_exercise(self):
 
-Prompts the user to input multiple exercises (up to the max_exercises limit). Adds each exercise to the user's list.
-3. Main Program Execution
-if __name__ == "__main__"::
-This is the entry point of the program. It ensures that the script runs only when executed directly, not when imported as a module.
-Creates a FitnessTracker instance and starts the fitness tracking process using the start_tracking() method.
-How It Works
-When the program runs:
-
-The user is prompted to enter their name, age, and the maximum number of exercises they want to store.
-A User object is created with this information.
-The menu (start_tracking) provides options:
-
-Add Steps: Prompts the user to enter a step count. Updates the total steps and calculates the distance.
-View Stats: Displays the user’s name, age, total steps, calculated distance, and list of exercises.
-Add Exercise: Prompts the user to input exercises (one by one, up to the maximum limit). Adds them to the list.
-Exit: Ends the program.
-The program runs in a loop until the user selects "Exit."
-
-Key Features
-Menu-Driven:
-
-Simple user interface with clear options.
-Dynamic Input Handling:
-
-Accepts user input for steps and exercises dynamically.
-Error Handling:
-
-Prevents invalid inputs (e.g., entering a string instead of a number).
-Ensures exercises don’t exceed the user-defined limit.
-Real-Time Updates:
-
-Calculates distance automatically when steps are added.
-This code is a beginner-friendly example of object-oriented programming in Python.
+if __name__ == "__main__":
+    tracker = FitnessTracker()
+    tracker.start_tracking()

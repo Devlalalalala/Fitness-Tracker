@@ -1,55 +1,91 @@
-The provided Java code describes a simple fitness monitoring application using object-oriented programming principles. 
-The app allows users to track their workouts, including walk rate . Here is a detailed breakdown of the Code.
+The above code is a Python implementation of a Fitness Tracker program. It allows users to track their steps, calculate the distance they've walked, and maintain a list of exercises. Below is a detailed explanation of the code:
 
-CODE BREAKDOWN
-
-Imports:
-Scanner is used for reading user input.
-Arrays is used for converting arrays to strings for display purposes.
-
-User Class:
-The User class represents an individual user of the fitness tracker.
+1. The User Class
+Purpose:
+Represents a user in the fitness tracker. It stores their details and tracks fitness-related metrics like steps, distance, and exercises.
 
 Attributes:
-
-name: The name of the user.
-age: The age of the user.
-steps: Total number of steps taken by the user.
-distance: Distance covered based on the number of steps.
-count: A counter for the number of exercises added.
-exercises: An array to store the names of exercises.
-Initializes a User object with the provided name, age, and maximum number of exercises the user can input.
-
+name: The user's name.
+age: The user's age.
+steps: The total number of steps the user has taken.
+distance: The distance walked in kilometers (calculated from steps).
+exercises: A list of exercises the user adds.
+max_exercises: The maximum number of exercises the user can store.
 Methods:
+__init__(self, name, age, max_exercises):
 
-getName(), getAge(), getSteps(), getDistance(): Getters for the user's attributes.
-getExercises(): Returns the array of exercises.
-addExercise(String exercise): Adds an exercise to the exercises array if there is space.
-addSteps(int steps): Adds steps to the total and updates the distance.
-updateDistance(): Calculates the distance covered based on steps (assuming 1 step = 0.00078 km).
-toString(): Provides a string representation of the User object, including the list of exercises using Arrays.toString().
+Initializes the user's details and sets initial values for steps, distance, and exercises.
+add_exercise(self, exercise):
 
-FitnessTracker Class
-The FitnessTracker class manages the user interface and interactions with the User class.
+Adds an exercise to the user's list if the list is not full. If full, prints an error message.
+add_steps(self, steps):
+
+Increases the user's step count by the provided number and updates the distance.
+update_distance(self):
+
+Converts the total steps into kilometers (1 step = 0.78 meters).
+__str__(self):
+
+Returns a string representation of the user’s details for easy display.
+2. The FitnessTracker Class
+Purpose:
+Handles the interaction with the user. It manages the fitness tracking process, including input handling and menu-driven functionality.
 
 Attributes:
-
-user: An instance of the User class.
-scanner: Used for reading user input.
-Initializes the scanner and creates a User object by calling initializeUser().
-
+user: An instance of the User class created during initialization.
 Methods:
+__init__(self):
 
-initializeUser(): Prompts the user for their name, age, and the maximum number of exercises they plan to add. Initializes the User object with these details.
-startTracking(): Main loop that displays a menu and handles user choices for adding steps, viewing stats, adding exercises, or exiting.
-addSteps(): Prompts the user to enter the number of steps and updates the User object.
-viewStats(): Displays the current stats of the user by printing the User object.
-addExercise(): Prompts the user to enter exercises and adds them to the User object.
-main(String[] args): Creates an instance of FitnessTracker and starts the tracking process.
+Initializes the fitness tracker by creating a User instance using the initialize_user() method.
+initialize_user(self):
 
-Summary
-This code sets up a console-based fitness tracker application where:
+Prompts the user to input their name, age, and maximum number of exercises. Creates and returns a User object.
+start_tracking(self):
 
-A user can input their name, age, and a maximum number of exercises they want to track.
-The application allows adding steps, viewing user stats, and adding exercises.
-The User class manages the user's data and the FitnessTracker class handles user interaction and updates.
+Displays a menu of options in a loop:
+Add steps.
+View user stats.
+Add exercises.
+Exit the program.
+Executes the corresponding action based on the user’s choice. Handles invalid inputs gracefully.
+add_steps(self):
+
+Prompts the user to input the number of steps and adds them to the user's total.
+view_stats(self):
+
+Prints the user’s details (steps, distance, and exercises) using the __str__ method of the User class.
+add_exercise(self):
+
+Prompts the user to input multiple exercises (up to the max_exercises limit). Adds each exercise to the user's list.
+3. Main Program Execution
+if __name__ == "__main__"::
+This is the entry point of the program. It ensures that the script runs only when executed directly, not when imported as a module.
+Creates a FitnessTracker instance and starts the fitness tracking process using the start_tracking() method.
+How It Works
+When the program runs:
+
+The user is prompted to enter their name, age, and the maximum number of exercises they want to store.
+A User object is created with this information.
+The menu (start_tracking) provides options:
+
+Add Steps: Prompts the user to enter a step count. Updates the total steps and calculates the distance.
+View Stats: Displays the user’s name, age, total steps, calculated distance, and list of exercises.
+Add Exercise: Prompts the user to input exercises (one by one, up to the maximum limit). Adds them to the list.
+Exit: Ends the program.
+The program runs in a loop until the user selects "Exit."
+
+Key Features
+Menu-Driven:
+
+Simple user interface with clear options.
+Dynamic Input Handling:
+
+Accepts user input for steps and exercises dynamically.
+Error Handling:
+
+Prevents invalid inputs (e.g., entering a string instead of a number).
+Ensures exercises don’t exceed the user-defined limit.
+Real-Time Updates:
+
+Calculates distance automatically when steps are added.
+This code is a beginner-friendly example of object-oriented programming in Python.

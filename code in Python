@@ -1,0 +1,76 @@
+class User:
+    def _init_(self, name, age, max_exercises):
+        self.name = name
+        self.age = age
+        self.steps = 0
+        self.distance = 0.0
+        self.exercises = []
+        self.max_exercises = max_exercises
+
+    def add_exercise(self, exercise):
+        if len(self.exercises) < self.max_exercises:
+            self.exercises.append(exercise)
+        else:
+            print("Exercise list is full.")
+
+    def add_steps(self, steps):
+        self.steps += steps
+        self.update_distance()
+
+    def update_distance(self):
+        self.distance = self.steps * 0.00078
+
+    def _str_(self):
+        return (f"User(name='{self.name}', age={self.age}, steps={self.steps}, "
+                f"distance={self.distance:.2f} km, exercises={self.exercises})")
+
+
+class FitnessTracker:
+    def _init_(self):
+        self.user = self.initialize_user()
+
+    def initialize_user(self):
+        name = input("Enter your name: ")
+        age = int(input("Enter your age: "))
+        max_exercises = int(input("Enter the maximum number of exercises you plan to add: "))
+        return User(name, age, max_exercises)
+
+    def start_tracking(self):
+        while True:
+            print("\n1. Add Steps")
+            print("2. View Stats")
+            print("3. Add Exercise")
+            print("4. Exit")
+            choice = int(input("Choose an option: "))
+
+            if choice == 1:
+                self.add_steps()
+            elif choice == 2:
+                self.view_stats()
+            elif choice == 3:
+                self.add_exercise()
+            elif choice == 4:
+                print("Exiting...")
+                break
+            else:
+                print("Invalid choice. Please try again.")
+
+    def add_steps(self):
+        steps = int(input("Enter number of steps: "))
+        self.user.add_steps(steps)
+        print("Steps added successfully.")
+
+    def view_stats(self):
+        print(self.user)
+
+    def add_exercise(self):
+        count = int(input("Enter number of exercises: "))
+        for i in range(count):
+            exercise = input(f"Enter exercise {i + 1}: ")
+            self.user.add_exercise(exercise)
+        print("Exercises added successfully.")
+
+
+if _name_ == "_main_":
+    tracker = FitnessTracker()
+    tracker.start_tracking()
